@@ -1,6 +1,7 @@
 const character = {
     name: "",
     class: "",
+    level: 1,
     inventory: [],
     stats: {
         health: null,
@@ -130,4 +131,16 @@ function gameOver() {
     if(character.stats.health <= 0){
         window.alert("GAME OVER!");
     }
+}
+
+
+// LEVEL
+const MAX_LEVEL = 10;
+
+function isNotMaxLevel(characterLevel, maxLevel) {
+    return characterLevel >= 1 && characterLevel <= maxLevel
+}
+
+function isMaxLevel(characterLevel) {
+    return characterLevel === 10
 }
