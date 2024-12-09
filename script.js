@@ -140,12 +140,14 @@ function selectCharacterClass() {
         case "2":
             character.class = "Mage";
             character.stats = mage.stats;
-            character.equipment = mage.equipment;
+            equipWeapon(character, mage.equipment.weapon);
+            equipArmor(character, mage.equipment.armor);
             break;
         case "3":
             character.class = "Rogue";
             character.stats = rogue.stats;
-            character.equipment = rogue.equipment;
+            equipWeapon(character, rogue.equipment.weapon);
+            equipArmor(character, rogue.equipment.armor);
             break;
         default:
             console.log("Invalid choice. Please try again.");
