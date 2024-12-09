@@ -138,7 +138,7 @@ function gameOver() {
 const MAX_LEVEL = 10;
 
 function isNotMaxLevel(characterLevel, maxLevel) {
-    return characterLevel >= 1 && characterLevel <= maxLevel
+    return characterLevel >= 1 && characterLevel < maxLevel
 }
 
 function isMaxLevel(characterLevel) {
