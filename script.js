@@ -159,10 +159,10 @@ function selectCharacterClass() {
     console.log(`Your equipment:`, character.equipment);
 }
 
-function gameOver() {
-    if(character.stats.health <= 0){
+function isCharacterDead(characterHealth) {
+    if(characterHealth <= 0){
         window.alert("GAME OVER!");
-        //  
+        return true;
     }
 }
 
