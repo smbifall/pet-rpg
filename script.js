@@ -5,7 +5,8 @@ const character = {
     inventory: [],
     stats: {
         health: null,
-        attack: null,
+        mana: null,
+        damage: null,
         critChance: null,
         defense: null,
         evasion: null
@@ -17,21 +18,21 @@ const character = {
 }
 
 
-// EQUIP
+// EQUIPMENT
 const weapons = {
     ironSword: {
         name: "Iron Sword",
-        attack: 10,
+        damage: 10,
         critChance: 1
     },
     dagger: {
         name: "Dagger",
-        attack: 7,
+        damage: 7,
         critChance: 1.5
     },
     woodenStaff: {
         name: "Wooden Staff",
-        attack: 15,
+        damage: 15,
         critChance: 1.1
     }
 }
@@ -54,13 +55,35 @@ const armours = {
     }
 }
 
+function equipWeapon(character, weapon) {
+    // if (character.equipment.weapon) {
+    //     // Add logic to unequip(swap) current weapon (by subtracting its stats, adding it to the inventory, etc.)
+    // }
+    character.equipment.weapon = weapon;
+    character.stats.damage += weapon.damage;
+    character.stats.critChance = weapon.critChance;
+}
+
+// Function to equip armor
+function equipArmor(character, armor) {
+    // if (character.equipment.armor) {
+    //     // Add logic to unequip(swap) current armor (by subtracting its stats, adding it to the inventory, etc.)
+    // }
+    character.equipment.armor = armor;
+    character.stats.defense += armor.defense;
+    character.stats.evasion += armor.evasion;
+}
+
 
 // CLASSES
 const warrior = {
     stats: { 
-        health: 50,
-        attack: 10,
-        defense: 20
+        health: 100,
+        mana: 100,
+        damage: 10,
+        critChance: 1,
+        defense: 20,
+        evasion: 5
     },
     equipment: { 
         weapon: weapons.ironSword,
@@ -69,9 +92,12 @@ const warrior = {
 };
 const mage = {
     stats: { 
-        health: 20,
-        attack: 25,
-        defense: 10
+        health: 50,
+        mana: 100,
+        damage: 25,
+        critChance: 1,
+        defense: 10,
+        evasion: 10
     },
     equipment: { 
         weapon: weapons.woodenStaff,
@@ -80,9 +106,12 @@ const mage = {
 };
 const rogue = {
     stats: { 
-        health: 30,
-        attack: 15,
-        defense: 10
+        health: 70,
+        mana: 100,
+        damage: 15,
+        critChance: 1.2,
+        defense: 10,
+        evasion: 15
     },
     equipment: { 
         weapon: weapons.dagger,
@@ -105,7 +134,8 @@ function selectCharacterClass() {
         case "1":
             character.class = "Warrior";
             character.stats = warrior.stats;
-            character.equipment = warrior.equipment;
+            equipWeapon(character, warrior.equipment.weapon);
+            equipArmor(character, warrior.equipment.armor);
             break;
         case "2":
             character.class = "Mage";
