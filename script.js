@@ -130,6 +130,7 @@ function selectCharacterClass() {
 function gameOver() {
     if(character.stats.health <= 0){
         window.alert("GAME OVER!");
+        //  
     }
 }
 
@@ -138,9 +139,19 @@ function gameOver() {
 const MAX_LEVEL = 10;
 
 function isNotMaxLevel(characterLevel, maxLevel) {
-    return characterLevel >= 1 && characterLevel < maxLevel
+    if (characterLevel >= 1 && characterLevel < maxLevel) {
+        return true
+    } else {
+        console.log(`Current lvl: ${character.level}`)
+        return false;
+    }
 }
 
 function isMaxLevel(characterLevel) {
-    return characterLevel === 10
+    if (characterLevel === 10) {
+        return true
+    } else {
+        console.log(`Current lvl: ${character.level}`)
+        return false;
+    }
 }
