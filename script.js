@@ -169,21 +169,22 @@ function isCharacterDead(characterHealth) {
 
 // LEVEL
 const MAX_LEVEL = 10;
+const MIN_LEVEL = 1;
 
-function isNotMaxLevel(characterLevel, maxLevel) {
-    if (characterLevel >= 1 && characterLevel < maxLevel) {
-        return true
+function isNotMaxLevel(characterLevel, minLevel, maxLevel) {
+    if (characterLevel >= minLevel && characterLevel < maxLevel) {
+        return true;
     } else {
-        console.log(`Current lvl: ${character.level}`)
+        console.log(`Current lvl: ${character.level}`);
         return false;
     }
 }
 
-function isMaxLevel(characterLevel) {
-    if (characterLevel === 10) {
-        return true
+function isMaxLevel(characterLevel, maxLevel) {
+    if (characterLevel === maxLevel) {
+        return true;
     } else {
-        console.log(`Current lvl: ${character.level}`)
+        console.log(`Current lvl: ${character.level}`);
         return false;
     }
 }

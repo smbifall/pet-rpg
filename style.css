@@ -1,0 +1,30 @@
+body {
+    background-color: darkslategrey;
+    font-family: 'Uncial Antiqua', sans-serif;
+}
+
+#game {
+    border: 2px black solid;
+    max-width: 720px;
+    max-height: 480px;
+    background-color: lightgray;
+    margin: 50px auto;
+    padding: 10px;
+}
+
+#controls {
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+#controls button {
+    font-family: 'Uncial Antiqua', sans-serif;
+    width: 40%;
+    height: 50px;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+}
