@@ -1,0 +1,96 @@
+body {
+    background-color: darkslategrey;
+}
+
+#title {
+    font-family: fantasy;
+    text-align: center;
+    font-size: 30px;
+    text-decoration: underline;
+}
+
+#game {
+    border: 2px black solid;
+    max-width: 1200px;
+    max-height: 1200px;
+    background-color: lightgray;
+    margin: 200px auto;
+    padding: 15px;
+}
+
+button {
+    border-style: solid;
+    font-family: 'Uncial Antiqua', sans-serif;
+    background-color: rgb(195, 195, 195);
+    width: 30%;
+    height: 50px;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    border: 4px solid darkred;
+    background-color: darkgrey;
+}
+
+/*
+#save-button {
+    border: 2px solid grey;
+    color: darkgoldenrod;
+}
+*/
+
+input {
+    border-style: solid;
+    border-color: black;
+    font-family: 'Uncial Antiqua', sans-serif;
+    height: 50px;
+    text-align: center;
+    font-size: 16px;
+}
+
+input:hover, input:focus {
+    outline: none;
+    border: 4px solid darkred;
+    background-color: rgb(195, 195, 195);;
+    font-weight: bold;
+}
+
+#controls {
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+#dialog-box {
+    font-family: fantasy;
+    font-size: 18px;
+    font-weight: bold;
+    color: darkgoldenrod;
+    border: 2px grey solid;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgb(26, 25, 25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#creation-area {
+    display: flex;
+    flex-direction: column;
+    margin: 10px auto;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+}
+
+#creation-area input {
+    width: 30%;
+}

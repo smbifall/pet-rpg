@@ -17,7 +17,6 @@ const character = {
     }
 }
 
-
 // EQUIPMENT
 const weapons = {
     ironSword: {
@@ -74,9 +73,9 @@ function equipArmor(character, armor) {
     character.stats.evasion += armor.evasion;
 }
 
-
 // CLASSES
 const warrior = {
+    description: "The Warrior, a stalwart defender and fierce combatant. With sword in hand and armor shining bright, you shall face any foe without fear. Strong of arm and resolute of heart, thou art a protector of the realm. Will thy might carve a path to glory, or shall the weight of battle prove too heavy? Choose wisely, for the Warrior’s path is one of valor, but also of sacrifice.",
     stats: { 
         health: 100,
         mana: 100,
@@ -91,6 +90,7 @@ const warrior = {
     },
 };
 const mage = {
+    description: "Ah, the Mage! Wielder of ancient magics, seeker of hidden knowledge. With a flick of thy wrist and words of power, you shall command the elements themselves. The power of fire, ice, and lightning bow to your will, but beware—the cost of such power is great. Shall you master the arcane, or shall the magic consume thee? A path of intellect and mystery awaits.",
     stats: { 
         health: 50,
         mana: 100,
@@ -105,6 +105,7 @@ const mage = {
     }
 };
 const rogue = {
+    description: "The Rogue, a shadow in the night, swift of foot and cunning of mind. With dagger drawn and secrets at thy side, thou art the unseen hand that moves in the dark. Silent and deadly, your stealth shall lead thee to treasure... or treachery. But remember, the Rogue’s path is fraught with peril, for even the cleverest of thieves may one day meet their match. Choose wisely, for your path is one of subtlety, but danger lurks around every corner.",
     stats: { 
         health: 70,
         mana: 100,
@@ -119,53 +120,12 @@ const rogue = {
     }
 };
 
-// assign character name through the window prompt
-function enterCharacterName() {
-    character.name = prompt("Enter your character's name:");
-    console.log(`Hi, ${character.name}! Let's create your character.`);
-}
-
-// select class for the character through the window promt
-function selectCharacterClass() {
-    const classChoice = prompt(
-        "Type:\n'1' to choose Warrior \n'2' to choose Mage \n'3'to choose Rogue"
-    );
-    switch (classChoice) {
-        case "1":
-            character.class = "Warrior";
-            character.stats = warrior.stats;
-            equipWeapon(character, warrior.equipment.weapon);
-            equipArmor(character, warrior.equipment.armor);
-            break;
-        case "2":
-            character.class = "Mage";
-            character.stats = mage.stats;
-            equipWeapon(character, mage.equipment.weapon);
-            equipArmor(character, mage.equipment.armor);
-            break;
-        case "3":
-            character.class = "Rogue";
-            character.stats = rogue.stats;
-            equipWeapon(character, rogue.equipment.weapon);
-            equipArmor(character, rogue.equipment.armor);
-            break;
-        default:
-            console.log("Invalid choice. Please try again.");
-            selectCharacterClass();
-            return;
-    }
-    console.log(`You chose ${character.class}!`);
-    console.log(`Your stats:`, character.stats);
-    console.log(`Your equipment:`, character.equipment);
-}
-
 function isCharacterDead(characterHealth) {
     if(characterHealth <= 0){
         window.alert("GAME OVER!");
         return true;
     }
 }
-
 
 // LEVEL
 const MAX_LEVEL = 10;
