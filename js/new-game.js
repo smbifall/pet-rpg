@@ -1,5 +1,6 @@
+let currentStep = 0; // 0 - name input, 1 - class selection
 let charName = "";
-let charClass = "";
+let charClass = ""
 
 function createCharacter(charName, charClass) {
     character.name = charName;
@@ -30,84 +31,159 @@ function createCharacter(charName, charClass) {
     }
 }
 
+function getClassDescription(className) {
+    switch(className) {
+        case "Warrior":
+            return warrior.description;
+        case "Mage":
+            return mage.description;
+        case "Rogue":
+            return rogue.description;
+        default:
+            return "Select a class to learn more."
+    }
+}
+
 function renderNameInput() {
+    currentStep = 0;
+
+    const dialogBox = document.getElementById("dialog-box");
+    dialogBox.innerHTML = `
+        <span>
+            Hark, noble traveler! A quest most grand awaits thee. But first, thy name must be known to the realms! 
+            Enter thy title with pride, for it shall echo through the ages! A warrior, a mage, or perhaps a rogue? 
+            Choose wisely, for each path hath its own fortune... or folly! May the winds of destiny guide thy choice. 
+            Let the character creation begin!
+        </span>
+        `;
     const creationArea = document.getElementById("creation-area");
     creationArea.innerHTML = "";
 
-    const instruction = document.createElement("h1");
-    instruction.id = "title";
-    instruction.textContent = "Enter Your Name";
+    const instruction = createElement("h1", {
+        attributes: { id: "title" },
+        properties: { textContent: "Enter Your Name" }
+    });
 
-    const nameInput = document.createElement("input");
-    nameInput.type = "text";
-    nameInput.placeholder = "Enter your character's name";
-    nameInput.id = "name-input";
+    const nameInput = createElement("input", {
+        attributes: { id: "name-input" },
+        properties: { type: "text", placeholder: "Enter your character's name" }
+    });
 
-    const saveNameButton = document.createElement("button");
-    saveNameButton.textContent = "Save Name";
-    saveNameButton.id = "save-button";
-    saveNameButton.onclick = () => {
-        const nameValue = nameInput.value;
+    const saveNameButton = createElement("button", {
+        attributes: { id: "save-button" },
+        properties: { textContent: "Save Name" },
+        events: { click: () =>  {
+            const nameValue = nameInput.value;
         if(nameValue) {
             charName = nameValue;
             renderClassSelection();
         } else {
-            alert("Please enter a valid name.");
+            dialogBox.textContent = "Please enter a valid name!";
         }
-    }
+        }}
+    });
 
-    creationArea.appendChild(instruction);
-    creationArea.appendChild(nameInput);
-    creationArea.appendChild(saveNameButton);
+    creationArea.append(instruction, nameInput, saveNameButton);
+
+    if(currentStep > 0) {
+        const backButton = createElement("button", {
+            attributes: { id: "back-button" },
+            properties: { textContent: "Back" },
+            events: { click: () => goBack() }
+        })
+        creationArea.appendChild(backButton);
+    }
 }
 
 function renderClassSelection() {
+    currentStep = 1;
+
+    const dialogBox = document.getElementById("dialog-box");
+    dialogBox.innerHTML = `
+        <span>
+            Hark, noble traveler! A quest most grand awaits thee. But first, thy name must be known to the realms! 
+            Enter thy title with pride, for it shall echo through the ages! A warrior, a mage, or perhaps a rogue? 
+            Choose wisely, for each path hath its own fortune... or folly! May the winds of destiny guide thy choice. 
+            Let the character creation begin!
+        </span>
+        `;
     const creationArea = document.getElementById("creation-area");
     creationArea.innerHTML = "";
 
-    const instruction = document.createElement("h1");
-    instruction.id = "title";
-    instruction.textContent = "Choose Your Class";
+    const instruction = createElement("h1", {
+        attributes: { id: "title" },
+        properties: { textContent: "Choose Your Class" }
+    });
     creationArea.appendChild(instruction);
 
     const classes = ["Warrior", "Mage", "Rogue"];
     classes.forEach((className) => {
-        const classButton = document.createElement("button");
-        classButton.id = className.toLowerCase();
-        classButton.textContent = className;
-
-        classButton.onclick = () => {
-            charClass = className;
-        };
+        const classButton = createElement("button", {
+            attributes: { id: className.toLowerCase() },
+            properties: { textContent: className },
+            events: { click: () => {
+                charClass = className;
+                const description = getClassDescription(className);
+                dialogBox.textContent = description;
+            }}
+        })
         creationArea.appendChild(classButton);
     });
-    const saveClassButton = document.createElement("button");
-    saveClassButton.id = "save-button";
-    saveClassButton.textContent = "Save Class";
-    saveClassButton.onclick = () => {
-        if (charClass) {
-            createCharacter(charName, charClass); // final step
-            renderBaseZone();
-        } else {
-            alert("Please select a class.");
-        }
-    };
+
+    const saveClassButton = createElement("button", {
+        attributes: { id: "save-button" },
+        properties: { textContent: "Save Class" },
+        events: { click: () => {
+            if (charClass) {
+                createCharacter(charName, charClass); // final step
+                renderBaseZone();
+            } else {
+                dialogBox.textContent = "Please select a class!";
+            }
+        }}
+    })
     creationArea.appendChild(saveClassButton);
+
+    const backButton = createElement("button", {
+        attributes: { id: "back-button" },
+        properties: { textContent: "Back" },
+        events: { click: () => goBack() }
+    })
+    creationArea.appendChild(backButton);
 }
 
 function renderBaseZone() {
-    const dialogBox = document.getElementById("dialog-box");
     const gameEl = document.getElementById("game");
+    const dialogBox = document.getElementById("dialog-box");
+    dialogBox.innerHTML = `
+        <span>
+            Welcome, traveler!
+        </span>
+        `;
     const creationArea = document.getElementById("creation-area");
     creationArea.innerHTML = "";
 
-    const characterInfo = document.createElement("div");
-    characterInfo.textContent = JSON.stringify(character, null, 2);
+    const characterInfo = createElement("div", { 
+        properties: { textContent: JSON.stringify(character, null, 2) } });
+
+    const campfireGif = createElement("img", {
+        attributes: { id: "campfire-gif" },
+        properties: { src: "assets/animations/winterCamp.gif" }
+    });
+
+    creationArea.remove();
     gameEl.insertBefore(characterInfo, dialogBox);
+    gameEl.insertBefore(campfireGif, dialogBox);
     // add an animated pixelated bonfire (possibly in dark souls style)
     // render basic stats as a top bar: name, class, hp, lvl, exp, settings button (save game, load game, main menu)
     // add buttons: (1) view detailed stats, (2) inventory
 };
+
+function goBack() {
+    if(currentStep === 1) {
+        renderNameInput();
+    }
+}
 
 function startNewGame() {
     const dialogBox = document.getElementById("dialog-box");
@@ -124,11 +200,11 @@ function startNewGame() {
         </span>
     `;
 
-    const creationArea = document.createElement("div");
-    creationArea.id = "creation-area";
+    const creationArea = createElement("div", { attributes: { id: "creation-area" } });
+
     gameEl.insertBefore(creationArea, dialogBox);
 
     renderNameInput(); // start with the name input
 }
 
-document.querySelector("#new-game").onclick = startNewGame;
+document.querySelector("#new-game").addEventListener("click", startNewGame);
