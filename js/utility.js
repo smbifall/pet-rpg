@@ -1,3 +1,5 @@
+import { warrior, mage, rogue } from "./char";
+
 export function createElement(tag, { attributes = {}, properties = {}, events = {} } = {}) {
     const element = document.createElement(tag);
 
@@ -23,4 +25,16 @@ export function updateDialogBox(content) {
 export function updateInstructions(content) {
     const instructions = document.getElementById("instructions");
     instructions.textContent = content;
+}
+export function getClassDescription(className) {
+    switch(className) {
+        case "Warrior":
+            return warrior.description;
+        case "Mage":
+            return mage.description;
+        case "Rogue":
+            return rogue.description;
+        default:
+            return "Select a class to learn more."
+    }
 }

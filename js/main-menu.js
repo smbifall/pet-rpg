@@ -3,8 +3,8 @@ import { createElement, updateDialogBox, updateInstructions } from './utility.js
 
 export const MainMenu = {
     elements: {
-        dialogBox: document.getElementById("dialog-box"),
         gameContainer: document.getElementById("game-container"),
+        dialogBox: document.getElementById("dialog-box"),
         instructions: document.getElementById("instructions"),
         controls: createElement("div", { 
             attributes: { id: "controls" } }),
@@ -23,7 +23,7 @@ export const MainMenu = {
         updateDialogBox("2025. All rights reserved.");
         updateInstructions("Menu");
         
-        const { gameContainer, dialogBox, controls, creationArea, newGameButton, loadGameButton } = this.elements;
+        const { gameContainer, dialogBox, controls, newGameButton, loadGameButton } = this.elements;
         gameContainer.insertBefore(controls, dialogBox);
         controls.append(newGameButton, loadGameButton);
     },

@@ -1,6 +1,7 @@
-import { createElement, updateDialogBox, updateInstructions } from './utility.js';
-import { character, warrior, mage, rogue } from './character.js';
+import { createElement, updateDialogBox, updateInstructions, getClassDescription } from './utility.js';
+import { character, warrior, mage, rogue } from './char.js';
 import { MainMenu } from './main-menu.js';
+import { BaseZone } from './locations.js';
 
 const SharedElements = {
     gameContainer: document.getElementById("game-container"),
@@ -135,47 +136,8 @@ export const NewGame = {
                 console.log("Invalid choice. Please try again.");
                 return;
         }
+
+        SharedElements.creationArea.remove();
+        BaseZone.render();
     }
 }
-
-function getClassDescription(className) {
-    switch(className) {
-        case "Warrior":
-            return warrior.description;
-        case "Mage":
-            return mage.description;
-        case "Rogue":
-            return rogue.description;
-        default:
-            return "Select a class to learn more."
-    }
-}
-
-/*
-function renderBaseZone() {
-    const gameEl = document.getElementById("game");
-    const dialogBox = document.getElementById("dialog-box");
-    dialogBox.innerHTML = `
-        <span>
-            Welcome, traveler!
-        </span>
-        `;
-    const creationArea = document.getElementById("creation-area");
-    creationArea.innerHTML = "";
-
-    const characterInfo = createElement("div", { 
-        properties: { textContent: JSON.stringify(character, null, 2) } });
-
-    const campfireGif = createElement("img", {
-        attributes: { id: "campfire-gif" },
-        properties: { src: "assets/animations/winterCamp.gif" }
-    });
-
-    creationArea.remove();
-    gameEl.insertBefore(characterInfo, dialogBox);
-    gameEl.insertBefore(campfireGif, dialogBox);
-    // add an animated pixelated bonfire (possibly in dark souls style)
-    // render basic stats as a top bar: name, class, hp, lvl, exp, settings button (save game, load game, main menu)
-    // add buttons: (1) view detailed stats, (2) inventory
-};
-*/
