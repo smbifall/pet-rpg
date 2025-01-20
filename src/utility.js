@@ -1,4 +1,4 @@
-import { warrior, mage, rogue } from "./char";
+import { warrior, mage, rogue } from "./char.js";
 
 export function createElement(tag, { attributes = {}, properties = {}, events = {} } = {}) {
     const element = document.createElement(tag);

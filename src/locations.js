@@ -1,4 +1,4 @@
-import { updateDialogBox } from "./utility";
+import { createElement, updateDialogBox } from "./utility";
 import { character } from "./char";
 
 export const BaseZone = {
