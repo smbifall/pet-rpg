@@ -2,13 +2,6 @@ body {
     background-color: rgb(26, 25, 25);
 }
 
-#instructions {
-    font-family: fantasy;
-    text-align: center;
-    font-size: 30px;
-    text-decoration: underline;
-}
-
 #game-container {
     border: 2px black solid;
     max-width: 1200px;
@@ -60,6 +53,13 @@ input:hover, input:focus {
     border: 4px solid darkred;
     background-color: rgb(195, 195, 195);;
     font-weight: bold;
+}
+
+#instructions {
+    font-family: fantasy;
+    text-align: center;
+    font-size: 30px;
+    text-decoration: underline;
 }
 
 #controls {
