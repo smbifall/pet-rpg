@@ -1,4 +1,4 @@
-function createElement(tag, { attributes = {}, properties = {}, events = {} } = {}) {
+export function createElement(tag, { attributes = {}, properties = {}, events = {} } = {}) {
     const element = document.createElement(tag);
 
     Object.entries(attributes).forEach(([key, value]) => {
@@ -14,4 +14,13 @@ function createElement(tag, { attributes = {}, properties = {}, events = {} } = 
     });
 
     return element;
+}
+
+export function updateDialogBox(content) {
+    const dialogBox = document.getElementById("dialog-box");
+    dialogBox.textContent = content;
+}
+export function updateInstructions(content) {
+    const instructions = document.getElementById("instructions");
+    instructions.textContent = content;
 }

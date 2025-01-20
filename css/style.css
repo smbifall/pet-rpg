@@ -2,14 +2,14 @@ body {
     background-color: rgb(26, 25, 25);
 }
 
-#title {
+#instructions {
     font-family: fantasy;
     text-align: center;
     font-size: 30px;
     text-decoration: underline;
 }
 
-#game {
+#game-container {
     border: 2px black solid;
     max-width: 1200px;
     max-height: 1200px;

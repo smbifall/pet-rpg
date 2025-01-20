@@ -1,4 +1,4 @@
-const character = {
+export const character = {
     name: "",
     class: "",
     level: 1,
@@ -14,11 +14,27 @@ const character = {
     equipment: {
         weapon: null,
         armor: null
+    },
+    equipWeapon(weapon) {
+        // if (character.equipment.weapon) {
+        //     // Add logic to unequip(swap) current weapon (by subtracting its stats, adding it to the inventory, etc.)
+        // }
+        this.equipment.weapon = weapon;
+        this.stats.damage += weapon.damage;
+        this.stats.critChance = weapon.critChance;
+    },
+    equipArmor(armor) {
+        // if (character.equipment.armor) {
+        //     // Add logic to unequip(swap) current armor (by subtracting its stats, adding it to the inventory, etc.)
+        // }
+        this.equipment.armor = armor;
+        this.stats.defense += armor.defense;
+        this.stats.evasion += armor.evasion;
     }
 }
 
 // EQUIPMENT
-const weapons = {
+export const weapons = {
     ironSword: {
         name: "Iron Sword",
         damage: 10,
@@ -36,7 +52,7 @@ const weapons = {
     }
 }
 
-const armours = {
+export const armours = {
     chainmail: {
         name: "Chainmail",
         defense: 8,
@@ -54,27 +70,8 @@ const armours = {
     }
 }
 
-function equipWeapon(character, weapon) {
-    // if (character.equipment.weapon) {
-    //     // Add logic to unequip(swap) current weapon (by subtracting its stats, adding it to the inventory, etc.)
-    // }
-    character.equipment.weapon = weapon;
-    character.stats.damage += weapon.damage;
-    character.stats.critChance = weapon.critChance;
-}
-
-// Function to equip armor
-function equipArmor(character, armor) {
-    // if (character.equipment.armor) {
-    //     // Add logic to unequip(swap) current armor (by subtracting its stats, adding it to the inventory, etc.)
-    // }
-    character.equipment.armor = armor;
-    character.stats.defense += armor.defense;
-    character.stats.evasion += armor.evasion;
-}
-
 // CLASSES
-const warrior = {
+export const warrior = {
     description: "The Warrior, a stalwart defender and fierce combatant. With sword in hand and armor shining bright, you shall face any foe without fear. Strong of arm and resolute of heart, thou art a protector of the realm. Will thy might carve a path to glory, or shall the weight of battle prove too heavy? Choose wisely, for the Warrior’s path is one of valor, but also of sacrifice.",
     stats: { 
         health: 100,
@@ -89,7 +86,7 @@ const warrior = {
         armor: armours.chainmail
     },
 };
-const mage = {
+export const mage = {
     description: "Ah, the Mage! Wielder of ancient magics, seeker of hidden knowledge. With a flick of thy wrist and words of power, you shall command the elements themselves. The power of fire, ice, and lightning bow to your will, but beware—the cost of such power is great. Shall you master the arcane, or shall the magic consume thee? A path of intellect and mystery awaits.",
     stats: { 
         health: 50,
@@ -104,7 +101,7 @@ const mage = {
         armor: armours.robe
     }
 };
-const rogue = {
+export const rogue = {
     description: "The Rogue, a shadow in the night, swift of foot and cunning of mind. With dagger drawn and secrets at thy side, thou art the unseen hand that moves in the dark. Silent and deadly, your stealth shall lead thee to treasure... or treachery. But remember, the Rogue’s path is fraught with peril, for even the cleverest of thieves may one day meet their match. Choose wisely, for your path is one of subtlety, but danger lurks around every corner.",
     stats: { 
         health: 70,
@@ -120,8 +117,8 @@ const rogue = {
     }
 };
 
-function isCharacterDead(characterHealth) {
-    if(characterHealth <= 0){
+function isCharacterDead(charHealth) {
+    if(charHealth <= 0){
         window.alert("GAME OVER!");
         return true;
     }

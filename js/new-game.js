@@ -1,33 +1,140 @@
-let currentStep = 0; // 0 - name input, 1 - class selection
-let charName = "";
-let charClass = ""
+import { createElement, updateDialogBox, updateInstructions } from './utility.js';
+import { character, warrior, mage, rogue } from './character.js';
+import { MainMenu } from './main-menu.js';
 
-function createCharacter(charName, charClass) {
-    character.name = charName;
+const SharedElements = {
+    gameContainer: document.getElementById("game-container"),
+    dialogBox: document.getElementById("dialog-box"),
+    creationArea: createElement("div", { 
+        attributes: { id: "creation-area" } }),
+    instructions: createElement("h1", {
+        attributes: { id: "instructions" },
+        properties: { textContent: "" } }),
+    nameInput: createElement("input", { 
+        attributes: { id: "name-input" },
+        properties: { type: "text", placeholder: "Enter your character's name" } }),
+    saveNameButton: createElement("button", {
+        attributes: { id: "save-button" },
+        properties: { textContent: "Save Name" },
+        events: { click: () => {
+            if (SharedElements.nameInput.value) {
+                NewGame.charName = SharedElements.nameInput.value;
+                NewGame.nameSelectionStep.destroy();
+                NewGame.classSelectionStep.render();
+            } else {
+                updateDialogBox("Name cannot be empty!");
+            }
+        }} }),
+    saveClassButton: createElement("button", {
+        attributes: { id: "save-button" },
+        properties: { textContent: "Save Class" },
+        events: { click: () => {
+            if (NewGame.charClass) {
+                NewGame.createCharacter(NewGame.charName, NewGame.charClass);
+                console.log(character);
+                // BaseZone.render();
+            } else {
+                updateDialogBox("Please select a class!");
+            }
+        }}
+    }),
+    backButton: createElement("button", {
+        attributes: { id: "back-button" },
+        properties: { textContent: "Back" },
+        events: { click: () => NewGame.goBack() } })
+}
 
-    const classChoice = charClass.toLowerCase();
-    switch (classChoice) {
-        case "warrior":
-            character.class = "Warrior";
-            character.stats = warrior.stats;
-            equipWeapon(character, warrior.equipment.weapon);
-            equipArmor(character, warrior.equipment.armor);
-            break;
-        case "mage":
-            character.class = "Mage";
-            character.stats = mage.stats;
-            equipWeapon(character, mage.equipment.weapon);
-            equipArmor(character, mage.equipment.armor);
-            break;
-        case "rogue":
-            character.class = "Rogue";
-            character.stats = rogue.stats;
-            equipWeapon(character, rogue.equipment.weapon);
-            equipArmor(character, rogue.equipment.armor);
-            break;
-        default:
-            console.log("Invalid choice. Please try again.");
-            return;
+export const NewGame = {
+    currentStep: 0,
+    charName: "",
+    charClass: "",
+    nameSelectionStep: {
+        render() {
+            NewGame.currentStep = 1;
+            updateDialogBox(`
+                Hark, noble traveler! A quest most grand awaits thee. But first, thy name must be known to the realms! 
+                Enter thy title with pride, for it shall echo through the ages! 
+                Let the character creation begin!`);
+            updateInstructions("Enter Your Name");
+
+            const { gameContainer, dialogBox, creationArea, backButton, nameInput, saveNameButton } = SharedElements;
+            gameContainer.append(creationArea, dialogBox);
+            creationArea.append(nameInput, saveNameButton, backButton);
+        },
+        destroy() {
+            SharedElements.creationArea.innerHTML = "";
+        }
+    },
+    classSelectionStep: {
+        classes: ["Warrior", "Mage", "Rogue"],
+        render() {
+            NewGame.currentStep = 2;
+            updateDialogBox(`
+                A warrior, a mage, or perhaps a rogue? 
+                Choose wisely, for each path hath its own fortune... or folly! 
+                May the winds of destiny guide thy choice!`);
+            updateInstructions("Choose Your Class");
+
+            const { gameContainer, dialogBox, creationArea, backButton, saveClassButton } = SharedElements;
+            gameContainer.insertBefore(creationArea, dialogBox);
+            creationArea.append( saveClassButton, backButton);
+
+            this.classes.forEach((className) => {
+                const classButton = createElement("button", {
+                    attributes: { id: className.toLowerCase() },
+                    properties: { textContent: className },
+                    events: { click: () => {
+                        NewGame.charClass = className;
+                        const description = getClassDescription(className);
+                        updateDialogBox(description);
+                    }}
+                })
+                creationArea.insertBefore(classButton, saveClassButton);
+            });
+        },
+        destroy() {
+            SharedElements.creationArea.innerHTML = "";
+        },
+    },
+    goBack() {
+        if(this.currentStep === 1) {
+            this.nameSelectionStep.destroy();
+            SharedElements.creationArea.remove();
+            MainMenu.render();
+        }
+        if(this.currentStep === 2) {
+            this.classSelectionStep.destroy();
+            this.charClass = "";
+            this.nameSelectionStep.render();
+        }
+    },
+    createCharacter(charName, charClass) {
+        character.name = charName;
+    
+        const classChoice = charClass.toLowerCase();
+        switch (classChoice) {
+            case "warrior":
+                character.class = "Warrior";
+                character.stats = warrior.stats;
+                character.equipWeapon(warrior.equipment.weapon);
+                character.equipArmor(warrior.equipment.armor);
+                break;
+            case "mage":
+                character.class = "Mage";
+                character.stats = mage.stats;
+                character.equipWeapon(mage.equipment.weapon);
+                character.equipArmor(mage.equipment.armor);
+                break;
+            case "rogue":
+                character.class = "Rogue";
+                character.stats = rogue.stats;
+                character.equipWeapon(rogue.equipment.weapon);
+                character.equipArmor(rogue.equipment.armor);
+                break;
+            default:
+                console.log("Invalid choice. Please try again.");
+                return;
+        }
     }
 }
 
@@ -44,114 +151,7 @@ function getClassDescription(className) {
     }
 }
 
-function renderNameInput() {
-    currentStep = 0;
-
-    const dialogBox = document.getElementById("dialog-box");
-    dialogBox.innerHTML = `
-        <span>
-            Hark, noble traveler! A quest most grand awaits thee. But first, thy name must be known to the realms! 
-            Enter thy title with pride, for it shall echo through the ages! A warrior, a mage, or perhaps a rogue? 
-            Choose wisely, for each path hath its own fortune... or folly! May the winds of destiny guide thy choice. 
-            Let the character creation begin!
-        </span>
-        `;
-    const creationArea = document.getElementById("creation-area");
-    creationArea.innerHTML = "";
-
-    const instruction = createElement("h1", {
-        attributes: { id: "title" },
-        properties: { textContent: "Enter Your Name" }
-    });
-
-    const nameInput = createElement("input", {
-        attributes: { id: "name-input" },
-        properties: { type: "text", placeholder: "Enter your character's name" }
-    });
-
-    const saveNameButton = createElement("button", {
-        attributes: { id: "save-button" },
-        properties: { textContent: "Save Name" },
-        events: { click: () =>  {
-            const nameValue = nameInput.value;
-        if(nameValue) {
-            charName = nameValue;
-            renderClassSelection();
-        } else {
-            dialogBox.textContent = "Please enter a valid name!";
-        }
-        }}
-    });
-
-    creationArea.append(instruction, nameInput, saveNameButton);
-
-    if(currentStep > 0) {
-        const backButton = createElement("button", {
-            attributes: { id: "back-button" },
-            properties: { textContent: "Back" },
-            events: { click: () => goBack() }
-        })
-        creationArea.appendChild(backButton);
-    }
-}
-
-function renderClassSelection() {
-    currentStep = 1;
-
-    const dialogBox = document.getElementById("dialog-box");
-    dialogBox.innerHTML = `
-        <span>
-            Hark, noble traveler! A quest most grand awaits thee. But first, thy name must be known to the realms! 
-            Enter thy title with pride, for it shall echo through the ages! A warrior, a mage, or perhaps a rogue? 
-            Choose wisely, for each path hath its own fortune... or folly! May the winds of destiny guide thy choice. 
-            Let the character creation begin!
-        </span>
-        `;
-    const creationArea = document.getElementById("creation-area");
-    creationArea.innerHTML = "";
-
-    const instruction = createElement("h1", {
-        attributes: { id: "title" },
-        properties: { textContent: "Choose Your Class" }
-    });
-    creationArea.appendChild(instruction);
-
-    const classes = ["Warrior", "Mage", "Rogue"];
-    classes.forEach((className) => {
-        const classButton = createElement("button", {
-            attributes: { id: className.toLowerCase() },
-            properties: { textContent: className },
-            events: { click: () => {
-                charClass = className;
-                const description = getClassDescription(className);
-                dialogBox.textContent = description;
-            }}
-        })
-        creationArea.appendChild(classButton);
-    });
-
-    const saveClassButton = createElement("button", {
-        attributes: { id: "save-button" },
-        properties: { textContent: "Save Class" },
-        events: { click: () => {
-            if (charClass) {
-                createCharacter(charName, charClass); // final step
-                renderBaseZone();
-            } else {
-                dialogBox.textContent = "Please select a class!";
-            }
-        }}
-    })
-    creationArea.appendChild(saveClassButton);
-
-    const backButton = createElement("button", {
-        attributes: { id: "back-button" },
-        properties: { textContent: "Back" },
-        events: { click: () => goBack() }
-    })
-    creationArea.appendChild(backButton);
-}
-
+/*
 function renderBaseZone() {
     const gameEl = document.getElementById("game");
     const dialogBox = document.getElementById("dialog-box");
@@ -178,33 +178,4 @@ function renderBaseZone() {
     // render basic stats as a top bar: name, class, hp, lvl, exp, settings button (save game, load game, main menu)
     // add buttons: (1) view detailed stats, (2) inventory
 };
-
-function goBack() {
-    if(currentStep === 1) {
-        renderNameInput();
-    }
-}
-
-function startNewGame() {
-    const dialogBox = document.getElementById("dialog-box");
-    const gameEl = document.getElementById("game");
-    const controls = document.getElementById("controls");
-
-    controls.remove();
-    dialogBox.innerHTML = `
-        <span>
-            Hark, noble traveler! A quest most grand awaits thee. But first, thy name must be known to the realms! 
-            Enter thy title with pride, for it shall echo through the ages! A warrior, a mage, or perhaps a rogue? 
-            Choose wisely, for each path hath its own fortune... or folly! May the winds of destiny guide thy choice. 
-            Let the character creation begin!
-        </span>
-    `;
-
-    const creationArea = createElement("div", { attributes: { id: "creation-area" } });
-
-    gameEl.insertBefore(creationArea, dialogBox);
-
-    renderNameInput(); // start with the name input
-}
-
-document.querySelector("#new-game").addEventListener("click", startNewGame);
+*/
