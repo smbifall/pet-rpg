@@ -6,7 +6,7 @@ export const BaseZone = {
         gameContainer: document.getElementById("game-container"),
         dialogBox: document.getElementById("dialog-box"),
         characterInfo: createElement("div", { 
-            properties: { textContent: JSON.stringify(character, null, 2) } }),
+            properties: { textContent: "" } }),
         campfireGif: createElement("img", {
             attributes: { id: "campfire-gif" },
             properties: { src: "assets/animations/winterCamp.gif" }})
@@ -14,9 +14,10 @@ export const BaseZone = {
     render() {
         const { gameContainer, dialogBox, characterInfo, campfireGif } = this.elements;
 
-        updateInstructions("Base Zone")
-        updateDialogBox("Welcome, traveler!");
+        characterInfo.textContent = JSON.stringify(character, null, 2);
         gameContainer.insertBefore(characterInfo, dialogBox);
         gameContainer.insertBefore(campfireGif, dialogBox);
+        updateInstructions("Base Zone")
+        updateDialogBox("Welcome, traveler!");
     }
 }

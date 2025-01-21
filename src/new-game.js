@@ -33,7 +33,8 @@ const SharedElements = {
             if (NewGame.charClass) {
                 NewGame.createCharacter(NewGame.charName, NewGame.charClass);
                 console.log(character);
-                // BaseZone.render();
+                SharedElements.creationArea.remove();
+                BaseZone.render();
             } else {
                 updateDialogBox("Please select a class!");
             }
@@ -136,8 +137,5 @@ export const NewGame = {
                 console.log("Invalid choice. Please try again.");
                 return;
         }
-
-        SharedElements.creationArea.remove();
-        BaseZone.render();
     }
 }
